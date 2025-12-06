@@ -12,7 +12,7 @@ class Comment(models.Model):
     element = models.ForeignKey(Element, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"Comment for {self.element.title if self.element else 'N/A'} - {self.created_at.strftime('%Y-%m-%d')}"
+        return f"Comment {self.text} for {self.element.title if self.element else 'N/A'} - {self.date_posted.strftime('%Y-%m-%d')}"
 
 
 

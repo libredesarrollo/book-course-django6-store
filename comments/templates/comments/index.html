@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+</head>
+<body>
+    <a href="{% url 'add' %}">Add</a>
+    <div>
+        {% for c in comments %}
+            <div style="margin-top: 10px; border: 1px solid ">
+                <p>{{ c.text }}</p>
+                <p>{{ c.date_posted }}</p>
+                <a href="{% url 'update' c.id %}">Edit</a>
+                   <form action="{% url 'delete' c.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- paginacion -->
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mt-3">
+        {% if comments.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ comments.previous_page_number }}">prev</a>
+        </li>
+        {% endif %}
+        {% for i in comments.paginator.page_range %}
+        {% if i == comments.number %}
+        <li class="page-item active">
+            <a class="page-link" href="#">{{ i }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if comments.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ comments.next_page_number }}">next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+      
+    </ul>
+</nav>
+
+</body>
+</html>
