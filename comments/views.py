@@ -28,7 +28,7 @@ def add(request):
         if form.is_valid():
             form.save()
         
-        return redirect('index')
+        return redirect('comments:index')
         # return HttpResponse("Hello world!")
     # return "HTTP"
 
@@ -55,13 +55,11 @@ def update(request, pk):
         form = CommentForm(instance=comment)
 
     # return render(request,'comments/add.html',{'form':form, 'comment': comment})
-    return redirect('index')
+    return redirect('comments:index')
 
 
 def delete(request,pk):
-    comment = Comment.objects.get(pk=pk)
-    comment.delete()
-    return redirect('index')
+    # comment = Comment.objects.get(pk=pk)
+    # comment.delete()
+    return redirect('comments:index')
     # return HttpResponse("OK!")
-
-

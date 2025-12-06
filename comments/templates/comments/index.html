@@ -6,14 +6,14 @@
     <title>List</title>
 </head>
 <body>
-    <a href="{% url 'add' %}">Add</a>
+    <a href="{% url 'comments:add' %}">Add</a>
     <div>
         {% for c in comments %}
             <div style="margin-top: 10px; border: 1px solid ">
                 <p>{{ c.text }}</p>
                 <p>{{ c.date_posted }}</p>
-                <a href="{% url 'update' c.id %}">Edit</a>
-                   <form action="{% url 'delete' c.id %}" method="post">
+                <a href="{% url 'comments:update' c.id %}">Edit</a>
+                   <form action="{% url 'comments:delete' c.id %}" method="post">
         {% csrf_token %}
         <button type="submit">Delete</button>
     </form>

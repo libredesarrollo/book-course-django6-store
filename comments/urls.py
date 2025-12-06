@@ -4,6 +4,7 @@ from .views import add
 from . import views
 
 # app_name = 'comments'
+app_name = 'comments'
 urlpatterns = [
     path("add", add, name="add"),
     path('', views.index, name='index'),
