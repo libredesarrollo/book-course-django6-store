@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator
 
 from .models import Comment
@@ -38,7 +38,8 @@ def add(request):
 #     return render(request,'comments/index.html',{'comments':comments})
 
 def index(request):
-    comments = Comment.objects.all()
+    comments = Comment.objects.all() # .filter(pk__gt = 50)
+    # comments = get_list_or_404(Comment)
     paginator = Paginator(comments, 15)
     page_number = request.GET.get('page')
     comments_page = paginator.get_page(page_number)
@@ -46,20 +47,28 @@ def index(request):
 
 
 def update(request, pk):
-    comment = Comment.objects.get(pk=pk)
+    
+    # try:
+    #     comment = Comment.objects.get(pk=pk)
+    # except Comment.DoesNotExist:
+    #     raise Http404 #Http404()
+    
+    comment = get_object_or_404(Comment, pk=pk)
+
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
+        return redirect('comments:index')
     else:
         form = CommentForm(instance=comment)
 
-    # return render(request,'comments/add.html',{'form':form, 'comment': comment})
-    return redirect('comments:index')
+    return render(request,'comments/add.html',{'form':form, 'comment': comment})
+    
 
 
 def delete(request,pk):
-    # comment = Comment.objects.get(pk=pk)
-    # comment.delete()
+    comment = Comment.objects.get(pk=pk)
+    comment.delete()
     return redirect('comments:index')
     # return HttpResponse("OK!")
