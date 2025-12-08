@@ -1,16 +1,18 @@
+from django.core.exceptions import ValidationError
+
 from django.db import models
 
 # Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255,blank=True)
     
     def __str__(self):
         return self.title
     
 class Type(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255,blank=True)
     
     def __str__(self):
         return self.title
@@ -24,6 +26,11 @@ class Element(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    
+    # Realizar validaciones desde el modelo y se aplican en los formularios
+    # def clean(self):
+    #     if self.price < 0:
+    #         raise ValidationError('Price cannot be negative')
     
     def __str__(self):
         return self.title

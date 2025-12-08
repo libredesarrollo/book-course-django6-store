@@ -3,55 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List</title>
+    <title>Comments List</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .add-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .comment-card {
+            border: 1px solid #e1e1e1;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .comment-card p:first-child {
+            font-size: 1.1em;
+            margin-top: 0;
+        }
+        .comment-card .date {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .comment-actions form {
+            margin: 0; /* Remove default form margin */
+        }
+        .btn {
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-edit {
+            background-color: #007bff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        /* Bootstrap-like pagination styles */
+        .pagination {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .page-item .page-link {
+            color: #007bff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #dee2e6;
+            margin: 0 2px;
+            border-radius: 5px;
+        }
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
 </head>
 <body>
-    <a href="{% url 'comments:add' %}">Add</a>
-    <div>
+    <div class="container">
+        <a href="{% url 'comments:add' %}" class="add-link">Add Comment</a>
         {% for c in comments %}
-            <div style="margin-top: 10px; border: 1px solid ">
+            <div class="comment-card">
                 <p>{{ c.text }}</p>
-                <p>{{ c.date_posted }}</p>
-                <a href="{% url 'comments:update' c.id %}">Edit</a>
-                   <form action="{% url 'comments:delete' c.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
-
+                <p class="date">{{ c.date_posted }}</p>
+                <div class="comment-actions">
+                    <a href="{% url 'comments:update' c.id %}" class="btn btn-edit">Edit</a>
+                    <form action="{% url 'comments:delete' c.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+                </div>
             </div>
         {% endfor %}
+
+        <!-- Paginación -->
+        {% include 'comments/pagination.html' %}
     </div>
-
-    <!-- paginacion -->
-
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center mt-3">
-        {% if comments.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ comments.previous_page_number }}">prev</a>
-        </li>
-        {% endif %}
-        {% for i in comments.paginator.page_range %}
-        {% if i == comments.number %}
-        <li class="page-item active">
-            <a class="page-link" href="#">{{ i }}</a>
-        </li>
-        {% else %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-        </li>
-        {% endif %}
-        {% endfor %}
-        {% if comments.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ comments.next_page_number }}">next</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-      
-    </ul>
-</nav>
-
 </body>
 </html>
