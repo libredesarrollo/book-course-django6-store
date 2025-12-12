@@ -43,6 +43,7 @@ def index(request):
     paginator = Paginator(comments, 15)
     page_number = request.GET.get('page')
     comments_page = paginator.get_page(page_number)
+    #return render(request,'comments/filters.html',{'comments':comments_page})
     return render(request,'comments/index.html',{'comments':comments_page})
 
 

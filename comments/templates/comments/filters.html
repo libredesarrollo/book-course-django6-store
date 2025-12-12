@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Filtro / Etiqueta</th>
+                <th>Descripción</th>
+                <th>Código de Plantilla</th>
+                <th>Salida de Ejemplo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>cut</code></td>
+                <td>Elimina todas las ocurrencias del argumento en el string.</td>
+                <td><code>{{ " AndrÉSCrUz  --  99 "|cut:" " }}</code></td>
+                <td><b>AndrÉSCrUz!</b> (Elimina espacios)</td>
+            </tr>
+            <tr>
+                <td><code>date</code></td>
+                <td>Formatea un objeto de fecha/hora.</td>
+                <td><code>{{ comments.0.date_posted|date:"D d M Y" }}</code></td>
+                <td><b>{{comments.0.date_posted}}</b></td>
+            </tr>
+            <tr>
+                <td><code>now</code> (Etiqueta)</td>
+                <td>Obtiene la fecha y/o hora actual.</td>
+                <td><code>{% now "jS F Y H:i" %}</code></td>
+                <td><b>{{now}}</b> (Hora actual aproximada)</td>
+            </tr>
+            <tr>
+                <td><code>lower</code></td>
+                <td>Convierte un string a minúscula.</td>
+                <td><code>{{ "AndrÉSCrUz"|lower }}</code></td>
+                <td><b>andrés cruz!</b></td>
+            </tr>
+            <tr>
+                <td><code>upper</code></td>
+                <td>Convierte un string a mayúscula.</td>
+                <td><code>{{ "AndrÉSCrUz"|upper }}</code></td>
+                <td><b>ANDRÉS CRUZ!</b></td>
+            </tr>
+            <tr>
+                <td><code>add</code></td>
+                <td>Suma un valor (o concatena si es string).</td>
+                <td><code>{{ "5"|add:"2" }}</code></td>
+                <td><b>7</b></td>
+            </tr>
+            <tr>
+                <td><code>with</code> (Etiqueta)</td>
+                <td>Crea una variable local temporal.</td>
+                <td><code>{% with total=comments.0.id|add:5 %}{{ total }}{% endwith %}</code></td>
+                <td><b>({{comments.0.id}} + 5)</b> ({{comments.0.id}} + 5)</td>
+            </tr>
+            <tr>
+                <td><code>cycle</code> (Etiqueta)</td>
+                <td>Alterna entre los valores proporcionados.</td>
+                <td><code>{% for o in comments %}<span class="{% cycle 'r1' 'r2' %}">...</span>{% endfor %}</code></td>
+                <td>Para 3 elementos: <b>r1, r2, r1</b></td>
+            </tr>
+            <tr>
+                <td><code>default</code></td>
+                <td>Establece un valor por defecto si la variable es <code>None</code> o falsa.</td>
+                <td><code>{{ comments.0.undefined|default:"No disponible" }}</code></td>
+                <td><b>No disponible</b></td>
+            </tr>
+            <tr>
+                <td><code>length</code></td>
+                <td>Devuelve el número de elementos (string o lista).</td>
+                <td><code>{{ comments|length }}</code></td>
+                <td><b>15</b></td>
+            </tr>
+            <tr>
+                <td><code>safe</code></td>
+                <td>Marca un string como seguro, previniendo el escape de HTML.</td>
+                <td><code>{{ "<b>Texto</b>"|safe }}</code></td>
+                <td>El output se renderiza como <b>Texto</b> (en negrita)</td>
+            </tr>
+            <tr>
+                <td><code>join</code></td>
+                <td>Convierte una lista en un string con el delimitador.</td>
+                <td><code>{{ comments|join:" - " }}</code></td>
+                <td><b>---</b></td>
+            </tr>
+            <tr>
+                <td>Filtros Anidados</td>
+                <td>El resultado de <code>cut</code> es la entrada de <code>lower</code>.</td>
+                <td><code>{{ "HOLA!!!"|cut:"!"|lower }}</code></td>
+                <td><b>hola</b></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
