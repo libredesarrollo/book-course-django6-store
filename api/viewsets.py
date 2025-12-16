@@ -56,6 +56,25 @@ class TypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
     
+    # def perform_create(self, serializer):
+    #     print('Antes')
+    #     print(self.request.data.get("title"))
+    #     print(self.request.data.get("slug"))
+       
+    #     # type = Type()
+    #     # type.title = self.request.data.get("title")
+    #     # type.slug = self.request.data.get("slug")
+    #     # type.save()
+        
+        
+    #     type = Type.objects.create(
+    #         title = self.request.data.get('title'),
+    #         slug = self.request.data.get('slug')
+    #     )
+       
+    #     # serializer.save()
+    #     print("Despues")
+    
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.exclude(element__isnull=True)
     serializer_class = CommentSerializer
