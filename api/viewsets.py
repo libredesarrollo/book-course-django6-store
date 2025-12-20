@@ -30,7 +30,7 @@ class ElementCreateUpdateDestroyViewSet(
     queryset = Element.objects.all()
     serializer_class = ElementCreateUpdateDestroySerializer
 
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     @action(detail=True, methods=['get'])
