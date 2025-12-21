@@ -25,8 +25,8 @@ class ElementCreateUpdateDestroyViewSet(
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
     queryset = Element.objects.all()
     serializer_class = ElementCreateUpdateDestroySerializer
 
@@ -52,9 +52,16 @@ class CategoryViewSet(viewsets.ModelViewSet):
         return Response({"detail": "Parameter 'slug' is required."}, status=400)
 
 
-class TypeViewSet(viewsets.ReadOnlyModelViewSet):
+# class TypeViewSet(viewsets.ReadOnlyModelViewSet):
+class TypeViewSet(viewsets.ModelViewSet):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
+
+    @action(detail=False, methods=['get'])
+    def all(self, request):
+         queryset = Type.objects.all()
+         serializer = TypeSerializer(queryset, many=True)
+         return Response(serializer.data)
     
     # def perform_create(self, serializer):
     #     print('Antes')
