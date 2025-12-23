@@ -23,4 +23,5 @@ urlpatterns = [
     path('elements/', include("elements.urls")),  
     path('api/', include("api.urls")),  
     path('management/', include("management.urls")),  
+    path('', include("user.urls")),  
 ]

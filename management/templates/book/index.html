@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+    {% for b in object_list %}
+
+        <p>{{ b.name }} - {{ b.author }}</p>
+
+    {% endfor %}
+{% endblock content %}

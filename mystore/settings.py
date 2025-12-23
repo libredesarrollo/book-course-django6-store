@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'elements',
     'api',
     'management',
+    'user',
     # terceros
     'rest_framework',
     'rest_framework.authtoken',
