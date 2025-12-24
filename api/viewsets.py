@@ -10,7 +10,9 @@ from rest_framework.permissions import IsAuthenticated
 from elements.models import Element, Category, Type
 from comments.models import Comment
 
-from .serializers import ElementReadOnlySerializer, ElementCreateUpdateDestroySerializer, CategorySerializer, TypeSerializer, CommentSerializer
+from todo.models import Todo
+
+from .serializers import ElementReadOnlySerializer, ElementCreateUpdateDestroySerializer, CategorySerializer, TypeSerializer, CommentSerializer, TodoSerializer
 
 # class ElementViewSet(viewsets.ModelViewSet):
 #     queryset = Element.objects.all()
@@ -85,3 +87,14 @@ class TypeViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.exclude(element__isnull=True)
     serializer_class = CommentSerializer
+    
+# Todo
+class TodoViewSet(viewsets.ModelViewSet):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user, count=Todo.objects.filter(user=self.request.user).count()).save()

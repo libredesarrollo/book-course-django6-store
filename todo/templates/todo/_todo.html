@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+    <div class="container mt-5" style="max-width: 500px;">
+
+        <div class="card">
+            <div x-data="data()" x-init="ordenar()">
+                <div class="card-header">
+                    <h4>Total tareas <span x-text="totalTareas"></span></h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-auto">
+                            <label class="form-control-plaintext">Buscar </label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" x-model="search">
+                        </div>
+                    </div>
+                    <form x-on:submit.prevent="save()" class="row g-3 mt-2">
+                        <div class="col-auto">
+                            <label class="form-control-plaintext">
+                                Crear
+                            </label>
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-control" type="text" x-model="task">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success">Agregar</button>
+                        </div>
+                    </form>
+                    <ul x-ref="items" class="list-group my-3">
+                        <template x-for="t in filterTodo()">
+                            <li class="list-group-item">
+                                <input type="checkbox" x-model="t.completed">
+                                <span @click="t.editMode=true" x-show="!t.editMode" x-text="t.task"></span>
+                                <input @keyup.enter="t.editMode=false" type="text" x-show="t.editMode" x-model="t.task">
+                                <button class="btn btn-sm float-end btn-close" @click="remove(t)"></button>
+                            </li>
+                        </template>
+                    </ul>
+                    <button class="btn btn-danger" @click="todos = []">Borrar todos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function data() {
+            return {
+
+                search: "",
+                task: '',
+                todos: Alpine.$persist([]),
+                ordenar() {
+                    Sortable.create(this.$refs.items)
+                },
+                totalTareas() {
+                    return this.todos.length
+                },
+                filterTodo() {
+                    return this.todos.filter((t) => t.task.toLowerCase().includes(this.search.toLowerCase())
+                    )
+                },
+                remove(todo) {
+                    this.todos = this.todos.filter((t) => t != todo)
+                },
+                save() {
+                    this.todos.push({
+                        completed: false,
+                        task: this.task
+                    })
+                    this.task = ""
+                }
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

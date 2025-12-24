@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from elements.models import Element, Category, Type
 from comments.models import Comment
+from todo.models import Todo
 
 class CommentSerializer(serializers.ModelSerializer):
     count = serializers.SerializerMethodField()
@@ -41,3 +42,11 @@ class ElementCreateUpdateDestroySerializer(serializers.ModelSerializer):
     class Meta:
         model = Element
         fields = '__all__'
+        
+        
+# **** TODO
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        # fields = '__all__'
+        fields = ['id','name']
