@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'management',
     'user',
     'todo',
+    'account',
     # terceros
     'rest_framework',
     'rest_framework.authtoken',
     "corsheaders",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

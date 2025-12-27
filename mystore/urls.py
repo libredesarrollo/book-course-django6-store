@@ -23,6 +23,8 @@ urlpatterns = [
     path('elements/', include("elements.urls")),  
     path('api/', include("api.urls")),  
     path('management/', include("management.urls")),  
-    path('', include("user.urls")),  
     path('todo/', include("todo.urls")),  
+    # auth
+    path('', include("user.urls")),  
+    path('', include("account.urls")),  
 ]
