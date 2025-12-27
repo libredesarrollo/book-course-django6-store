@@ -42,15 +42,15 @@
                     </form>
                     <ul x-ref="items" class="list-group my-3">
                         <template x-for="t in filterTodo()">
-                            <li class="list-group-item">
-                                <input type="checkbox" x-model="t.completed">
+                            <li class="list-group-item" :id="t.id">
+                                <input @change='update(t)' :checked="t.status == 1" type="checkbox" x-model="t.completed">
                                 <span @click="t.editMode=true" x-show="!t.editMode" x-text="t.name"></span>
                                 <input @keyup.enter="update(t)" type="text" x-show="t.editMode" x-model="t.name">
                                 <button class="btn btn-sm float-end btn-close" @click="remove(t)"></button>
                             </li>
                         </template>
                     </ul>
-                    <button class="btn btn-danger" @click="todos = []">Borrar todos</button>
+                    <button class="btn btn-danger" @click="todos = []; axios.delete('/api/todo/delete/?format=json', { headers:{ 'X-CSRFToken': '{{ csrf_token }}' } })">Borrar todos</button>
                 </div>
             </div>
         </div>
@@ -68,7 +68,23 @@
                         this.todos = res.data.results
                     })
 
-                    Sortable.create(this.$refs.items)
+                    Sortable.create(this.$refs.items, {
+                        
+                        onEnd: (evt) => {
+                            var ids = []
+                            document.querySelectorAll('.list-group li').forEach(todoHTMK => {
+                                ids.push(todoHTMK.id)
+                            })
+                            var formData = new FormData()
+                            formData.append('ids', ids)
+                                axios.post('/api/todo/sort/?format=json', formData,
+                            {
+                                 headers:{
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                }
+                            })
+                        }
+                    })
                 },
                 totalTareas() {
                     return this.todos.length
@@ -91,7 +107,8 @@
                     todo.editMode = false
                     axios.put('/api/todo/'+todo.id+'/?format=json', 
                     {
-                        name: todo.name
+                        name: todo.name,
+                        status: todo.completed,
                     },
                     {
                        headers:{

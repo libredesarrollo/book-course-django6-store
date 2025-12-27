@@ -93,8 +93,30 @@ class TodoViewSet(viewsets.ModelViewSet):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
     
-    queryset = Todo.objects.all()
+    queryset = Todo.objects.all().order_by('count')
     serializer_class = TodoSerializer
+    
+    def get_queryset(self):
+        return Todo.objects.filter(user=self.request.user).order_by('count')
+        # return super().get_queryset().filter(user=self.request.user).order_by('count')
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, count=Todo.objects.filter(user=self.request.user).count()).save()
+        
+    @action(detail=False, methods=['post'])
+    def sort(self, request):
+        
+        ids = request.POST.get('ids').split(',')
+
+        for i, t in enumerate(ids):
+            Todo.objects.filter(user=self.request.user).filter(id=t).update(count=i)
+            
+        return Response('OK')
+    
+    @action(detail=False, methods=['delete'])
+    def delete(self, request):
+        Todo.objects.filter(user=self.request.user).delete()
+        return Response('OK')
+        
+
+    
