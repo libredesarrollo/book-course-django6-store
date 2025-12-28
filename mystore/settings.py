@@ -25,17 +25,14 @@ SECRET_KEY = 'django-insecure-g52+21u-e6!duq-zhvs6$$pk8&=$-v&i=jde@@&0a_nm6j3zot
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'ec5cbede982042'
+EMAIL_HOST_PASSWORD = '08243f07fb0be7'
+EMAIL_PORT = '2525'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     # proyecto
     'comments',
     'elements',
@@ -44,6 +41,14 @@ INSTALLED_APPS = [
     'user',
     'todo',
     'account',
+    # django
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
     # terceros
     'rest_framework',
     'rest_framework.authtoken',

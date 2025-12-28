@@ -5,6 +5,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView
 # from django.contrib.auth.models import User
 
+from .forms import UserRegisterForm
+
 # Create your views here.
 
 class UserLoginView(LoginView):
@@ -20,8 +22,10 @@ class UserLogoutView(LogoutView):
     next_page='/login'
     
 class UserRegisterCreateView(CreateView):
-    template_name='user/register.html'
-    form_class=UserCreationForm
+    # template_name='user/register.html'
+    template_name='registration/register.html'
+    # form_class=UserCreationForm
+    form_class=UserRegisterForm
     success_url='/login'
     
     

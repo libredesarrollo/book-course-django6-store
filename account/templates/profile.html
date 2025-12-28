@@ -1,0 +1,52 @@
+{% extends "base_user_account.html" %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="card mt-5">
+
+    <div class="card-header">
+        <h4>Profile Information</h4>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <th>User</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Authenticated</th>
+                    <td>{{ user.is_authenticated }}</td>
+                </tr>
+                <tr>
+                    <th>Anonymous</th>
+                    <td>{{ user.is_anonymous }}</td>
+                </tr>
+
+            </tbody>
+        </table>
+        {% if form.errors %}
+        <div class="alert alert-warning">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mt-3">
+                {{ form.avatar|add_label_class:"form-label" }}
+                {{ form.avatar|add_class:"form-control" }}
+            </div>
+            {{ form.user }}
+            <button type="submit" class="mt-3 btn btn-primary">Send</button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
