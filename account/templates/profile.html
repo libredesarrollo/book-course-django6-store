@@ -15,7 +15,14 @@
             <tbody>
                 <tr>
                     <th>User</th>
-                    <td>{{ user.username }}</td>
+                    <td>
+                        {% if request.user.userprofile.avatar %}
+                            <img style='max-width:50px' class='img-thumbnail' src="{{ request.user.userprofile.avatar.url }}" alt="Imagen de perfil">
+                        {% else %}
+                            {% comment %} <img src="/media/img/default-avatar.png" alt="Sin foto"> {% endcomment %}
+                        {% endif %}
+                        {{ user.username }}
+                    </td>
                 </tr>
                 <tr>
                     <th>Email</th>
@@ -29,7 +36,18 @@
                     <th>Anonymous</th>
                     <td>{{ user.is_anonymous }}</td>
                 </tr>
-
+            {% if request.user.userprofile %}
+                <tr>
+                    <th>Avatar</th>
+                    <td>
+                        <ul>
+                            <li>{{ request.user.userprofile.avatar.file}}</li>
+                            <li>{{ request.user.userprofile.avatar.url}}</li>
+                            <li>{{ request.user.userprofile.avatar.name}}</li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endif %}
             </tbody>
         </table>
         {% if form.errors %}
@@ -42,6 +60,18 @@
             <div class="mt-3">
                 {{ form.avatar|add_label_class:"form-label" }}
                 {{ form.avatar|add_class:"form-control" }}
+            </div>
+            <div class="mt-3">
+                {{ form.age|add_label_class:"form-label" }}
+                {{ form.age|add_class:"form-control" }}
+            </div>
+            <div class="mt-3">
+                {{ form.address|add_label_class:"form-label" }}
+                {{ form.address|add_class:"form-control" }}
+            </div>
+            <div class="mt-3">
+                {{ form.language|add_label_class:"form-label" }}
+                {{ form.language|add_class:"form-control" }}
             </div>
             {{ form.user }}
             <button type="submit" class="mt-3 btn btn-primary">Send</button>
