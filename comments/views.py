@@ -44,6 +44,7 @@ def index(request):
     page_number = request.GET.get('page')
     comments_page = paginator.get_page(page_number)
     #return render(request,'comments/filters.html',{'comments':comments_page})
+    # return HttpResponse("Hello world!")
     return render(request,'comments/index.html',{'comments':comments_page})
 
 
