@@ -86,6 +86,7 @@ class TypeViewSet(viewsets.ModelViewSet):
     
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.exclude(element__isnull=True)
+    # queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     
 # Todo
