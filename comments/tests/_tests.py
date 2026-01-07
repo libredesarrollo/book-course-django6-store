@@ -74,9 +74,6 @@ class CommentTest(TestCase):
         except Comment.DoesNotExist:
             pass
     
-        
-
-
 class CommentFormTest(TestCase):
     def test_comment_fields(self):
         form = CommentForm()
@@ -106,7 +103,6 @@ class CommentFormTest(TestCase):
         comment = form.save()
         # comment = Comment.objects.get(id=comment.id)
         self.assertTrue(comment.text==text)
-
 
 class CommentApiTest(APITestCase):
     def setUp(self):
@@ -183,3 +179,30 @@ class CommentApiTest(APITestCase):
         # response = self.client.get('/api/comment/'+str(self.comment.id)+'/')
         # self.assertEqual(response.status_code, 200)
         # self.assertContains(response, data.get('text'))
+
+    def test_delete(self):
+        response = self.client.delete('/api/comment/'+str(self.comment.id)+'/')
+        self.assertEqual(response.status_code, 204)
+
+        try:
+            Comment.objects.get(pk=self.comment.id)
+            raise Exception('El comentario deberia haber sido eliminado')
+        except Comment.DoesNotExist:
+            pass
+    
+    def test_comment_serializer(self):
+        cs = CommentSerializer(self.comment).data
+        self.assertEqual(cs['id'], self.comment.id)
+        self.assertEqual(cs['text'], self.comment.text)
+        self.assertEqual(cs['count'], Comment.objects.filter(element_id = self.comment.element_id).count())
+     
+    def test_create_error_form(self):
+        data = {'text':''}
+        response = self.client.post('/api/comment/',data)
+        self.assertEqual(response.status_code,400)
+        self.assertJSONEqual(response.content, '{ "text": [ "This field may not be blank." ] }')
+    def test_create_error_form_empty(self):
+        data = {}
+        response = self.client.post('/api/comment/',data)
+        self.assertEqual(response.status_code,400)
+        self.assertJSONEqual(response.content, '{ "text": [ "This field is required." ] }')
