@@ -29,6 +29,7 @@ urlpatterns = [
     # auth
     path('', include("user.urls")),  
     path('', include("account.urls")),  
+    path('pruebas/', include("pruebas.urls")),  
 ]
 
 if settings.DEBUG:
