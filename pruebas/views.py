@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 from django.core.signing import Signer
 
+from comments.models import Comment
+
 # Create your views here.
 def crip(request):
     print('crip')
@@ -65,5 +67,27 @@ def hash_django(request):
     # # TIP DE SEGURIDAD: Usa constant_time_compare para evitar ataques de tiempo
     # if constant_time_compare(nuevo_hash, hash_en_db):
     #     print("Verificado con éxito")
+
+    return render(request,'pruebas/test.html')
+
+def my_session(request):
+    # request.session['comment_id'] = 5
+    request.session['comments'] = [1,2,3,4,5]
+    # request.session['comment'] = Comment.objects.get(pk=4)
+
+
+
+    if 'comment' in request.session:
+       print(f"Mostrando : {request.session['comment']}")
+
+
+    # if 'comments' in request.session:
+    #    print(f"Mostrando ID: {request.session['comments']}")
+
+
+    # if 'comment_id' in request.session:
+    #    print(f"Mostrando ID: {request.session['comment_id']}")
+    #    del request.session['comment_id']
+       
 
     return render(request,'pruebas/test.html')

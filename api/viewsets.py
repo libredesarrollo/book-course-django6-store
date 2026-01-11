@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
 
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
@@ -35,6 +36,16 @@ class ElementCreateUpdateDestroyViewSet(
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+    def perform_create(self, serializer):
+        title = serializer.validated_data.get('title')
+        slug = serializer.validated_data.get('slug')
+        
+        if title and not slug:
+            serializer.save(slug=slugify(title))
+        else:
+            serializer.save()
+
     @action(detail=True, methods=['get'])
     def elements(self, request, pk=None):
         queryset = Element.objects.filter(category_id=pk)

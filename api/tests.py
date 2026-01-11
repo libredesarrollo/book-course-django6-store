@@ -253,7 +253,7 @@ class CategoryApiTest(APITestCase):
         self.assertEqual(response.data['id'], self.category.id)
 
     def test_create_category(self):
-        data = {'title': 'Category 2', 'slug': 'category-2'}
+        data = {'title': 'Category 2'}
         response = self.client.post('/api/category/', data)
         self.assertEqual(response.status_code, 201)
         self.assertTrue(Category.objects.filter(slug='category-2').exists())
