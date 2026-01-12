@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 from .models import Comment
 from .forms import CommentForm
@@ -61,6 +62,9 @@ def update(request, pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
+        messages.success(request, "¡El comentario se ha guardado correctamente!")
+        messages.success(request, "¡El comentario se ha guardado correctamente 2 !")
+        messages.success(request, "¡El comentario se ha guardado correctamente 3!")
         return redirect('comments:index')
     else:
         form = CommentForm(instance=comment)
