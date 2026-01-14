@@ -93,17 +93,25 @@ WSGI_APPLICATION = 'mystore.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'djangofirstproyect', # Asegúrate de que este nombre exista en MySQL
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    # NO ES NECESARIO, DJANGO USA UNA EN MEMORIA/RAM POR DEFECTO
-    #     'TEST': BASE_DIR / 'test_db.sqlite3',
-    #     'TEST': {
-    #         'NAME': BASE_DIR / 'db.sqlite3',
-    #            'CHARSET': 'utf8',
-    #      },
+    # # NO ES NECESARIO, DJANGO USA UNA EN MEMORIA/RAM POR DEFECTO
+    # #     'TEST': BASE_DIR / 'test_db.sqlite3',
+    # #     'TEST': {
+    # #         'NAME': BASE_DIR / 'db.sqlite3',
+    # #            'CHARSET': 'utf8',
+    # #      },
     }
 }
+
+
 
 # CORS_ALLOWED_ORIGINS = [
 #     "localhost",
