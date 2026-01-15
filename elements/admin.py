@@ -3,6 +3,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
+from unfold.admin import ModelAdmin
+
 from .models import Element, Category, Type
 
 class ElementInline(admin.TabularInline):
@@ -10,7 +12,7 @@ class ElementInline(admin.TabularInline):
     extra = 1
 
 @admin.register(Type, Category)
-class CategoryTypeAdmin(admin.ModelAdmin):
+class CategoryTypeAdmin(ModelAdmin):
     # list_display = ('id','title')
     # class Media:
     #     css = {
@@ -40,7 +42,7 @@ class CategoryTypeAdmin(admin.ModelAdmin):
 #             raise ValidationError('Price cannot be negative')
 	
 @admin.register(Element)
-class ElementAdmin(admin.ModelAdmin):
+class ElementAdmin(ModelAdmin):
     # **** SOLO si quieres personalizar el campo
     # form=ElementForm
 

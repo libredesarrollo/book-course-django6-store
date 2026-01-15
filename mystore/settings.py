@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'todo',
     'account',
     'pruebas',
+
+    "unfold",  # before django.contrib.admin
+
     # django
     'django.contrib.admin',
     'django.contrib.auth',
