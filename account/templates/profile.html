@@ -1,6 +1,7 @@
 {% extends "base_user_account.html" %}
 
 {% load widget_tweaks %}
+{% load thumbnail %}
 
 {% block content %}
 
@@ -17,7 +18,9 @@
                     <th>User</th>
                     <td>
                         {% if request.user.userprofile.avatar %}
-                            <img style='max-width:50px' class='img-thumbnail' src="{{ request.user.userprofile.avatar.url }}" alt="Imagen de perfil">
+                            <img class='img-thumbnail' src="{{ request.user.userprofile.avatar|thumbnail_url:'avatar' }}" alt="Avatar" />
+                            {% comment %} <img src="{% thumbnail request.user.userprofile.avatar 80x80 crop %}" class="img-thumbnail" alt="Avatar">
+                            <img style='max-width:50px' class='img-thumbnail' src="{{ request.user.userprofile.avatar.url }}" alt="Imagen de perfil"> {% endcomment %}
                         {% else %}
                             {% comment %} <img src="/media/img/default-avatar.png" alt="Sin foto"> {% endcomment %}
                         {% endif %}
