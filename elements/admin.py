@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
 from unfold.admin import ModelAdmin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Element, Category, Type
 
@@ -40,11 +42,16 @@ class CategoryTypeAdmin(ModelAdmin):
 #     def clean_price(self):
 #         if self.cleaned_data.get('price') < 0:
 #             raise ValidationError('Price cannot be negative')
-	
+
+class ElementResource(resources.ModelResource):
+    class Meta:
+        model = Element
+
 @admin.register(Element)
-class ElementAdmin(ModelAdmin):
+class ElementAdmin(ModelAdmin, ImportExportModelAdmin):
     # **** SOLO si quieres personalizar el campo
     # form=ElementForm
+    resource_class = ElementResource
 
     def save_model(self, request, obj, form, change):
         if obj.slug == '':

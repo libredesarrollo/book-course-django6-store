@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'easy_thumbnails',
     'debug_toolbar',
+    'import_export',
 ]
 
 MIDDLEWARE = [
