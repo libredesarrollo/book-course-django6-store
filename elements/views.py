@@ -26,7 +26,7 @@ def add(request):
 def index(request):
     
     # categoria ejemplo
-    # categorias = Category.objects.prefetch_related('element_set').all()
+    # categorias = Category.objects.prefetch_related('elements').all()
     # for cat in categorias:
     #     print(f"Categoría: {cat.title}")
     #     # Aquí Django hace una consulta a la DB por CADA categoría para buscar sus elementos
