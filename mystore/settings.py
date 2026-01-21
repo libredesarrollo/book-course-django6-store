@@ -75,28 +75,52 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# LOGGING = {
+#     'version': 1,  # Esta es la línea que faltaba
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'simple': {
+#             'format': '{levelname} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#             'propagate': False,
+#         },
+#     },
+# }
+
 LOGGING = {
-    'version': 1,  # Esta es la línea que faltaba
-    'disable_existing_loggers': False,
+    'version': 1, # version definida por nosotros
+    'disable_existing_loggers': False,  # importante para que Django siga mandando logs
     'formatters': {
-        'simple': {
-            'format': '{levelname} {message}',
+        'verbose': {
+            'format': '[{asctime}] {levelname} {name}: {message}', # formato de salida, ej 2025-09-07 12:25:10,456] ERROR store.views: Error en PayPal process order
             'style': '{',
         },
     },
     'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+        'file': {
+            # 'level': 'DEBUG',  # captura todo desde DEBUG hasta ERROR
+            'level': 'ERROR',  # captura todo desde DEBUG hasta ERROR
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'mystore', 'logs', 'django.log'),  # archivo único
+            'formatter': 'verbose',
         },
     },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
+    'root': {   # <-- logger global
+        'handlers': ['file'],
+        'level': 'DEBUG',
     },
 }
 

@@ -6,6 +6,8 @@ from django.contrib import messages
 from .models import Comment
 from .forms import CommentForm
 
+import logging
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -21,6 +23,8 @@ from .forms import CommentForm
 #     # return HttpResponse("Hello world!")
 #     # return "HTTP"
 def add(request):
+    logger.error("Test Logging")
+    
     if request.method == 'GET':
         form = CommentForm()
         return render(request, 'comments/add.html', {'form':form})
