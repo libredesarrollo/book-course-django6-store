@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'debug_toolbar',
     'import_export',
+    'django_seed',
 ]
 
 MIDDLEWARE = [
@@ -100,29 +101,29 @@ MIDDLEWARE = [
 #     },
 # }
 
-LOGGING = {
-    'version': 1, # version definida por nosotros
-    'disable_existing_loggers': False,  # importante para que Django siga mandando logs
-    'formatters': {
-        'verbose': {
-            'format': '[{asctime}] {levelname} {name}: {message}', # formato de salida, ej 2025-09-07 12:25:10,456] ERROR store.views: Error en PayPal process order
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'file': {
-            # 'level': 'DEBUG',  # captura todo desde DEBUG hasta ERROR
-            'level': 'ERROR',  # captura todo desde DEBUG hasta ERROR
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'mystore', 'logs', 'django.log'),  # archivo único
-            'formatter': 'verbose',
-        },
-    },
-    'root': {   # <-- logger global
-        'handlers': ['file'],
-        'level': 'DEBUG',
-    },
-}
+# LOGGING = {
+#     'version': 1, # version definida por nosotros
+#     'disable_existing_loggers': False,  # importante para que Django siga mandando logs
+#     'formatters': {
+#         'verbose': {
+#             'format': '[{asctime}] {levelname} {name}: {message}', # formato de salida, ej 2025-09-07 12:25:10,456] ERROR store.views: Error en PayPal process order
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'file': {
+#             # 'level': 'DEBUG',  # captura todo desde DEBUG hasta ERROR
+#             'level': 'ERROR',  # captura todo desde DEBUG hasta ERROR
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': os.path.join(BASE_DIR, 'mystore', 'logs', 'django.log'),  # archivo único
+#             'formatter': 'verbose',
+#         },
+#     },
+#     'root': {   # <-- logger global
+#         'handlers': ['file'],
+#         'level': 'DEBUG',
+#     },
+# }
 
 INTERNAL_IPS = [
     # ...
@@ -232,6 +233,14 @@ MEDIA_URL = 'media/'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 15,
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/day',
+        'user': '3/day'
+    }
     # 'DEFAULT_AUTHENTICATION_CLASSES': [
     #     # 'rest_framework.authentication.BasicAuthentication',
     #     # 'rest_framework.authentication.SessionAuthentication',

@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -36,6 +37,7 @@ class ElementCreateUpdateDestroyViewSet(
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def perform_create(self, serializer):
         title = serializer.validated_data.get('title')
