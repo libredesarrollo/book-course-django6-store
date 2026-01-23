@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<header class="masthead"
+    style="background-image: url('https://startbootstrap.github.io/startbootstrap-clean-blog/assets/img/post-bg.jpg'); background-size: cover; background-position: center; padding: 150px 0 100px; margin-bottom: 50px;">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading text-center text-white">
+                    <h1 style="font-size: 55px;">{{ element.title }}</h1>
+                    <h2 class="subheading" style="font-size: 26px; font-weight: 300; margin: 10px 0 30px;">{{
+                        element.description|truncatewords:10 }}</h2>
+                    <span class="meta fst-italic">
+                        Posted by
+                        <a href="#!" class="text-white">Start Bootstrap</a>
+                        on {{ element.created|date:"F d, Y" }}
+                    </span>
+                    <div class="mt-3">
+                        <span class="badge bg-light text-dark me-1">{{ element.category.title }}</span>
+                        <span class="badge bg-secondary">{{ element.type.title }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Post Content -->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="fs-5 mb-4">
+                    {{ element.description|linebreaks }}
+                </div>
+                {% if element.price %}
+                <p class="fw-bold fs-4">Price: ${{ element.price }}</p>
+                {% endif %}
+
+                <div class="mt-5">
+                    <a href="{% url 'elements:blog_list' %}" class="btn btn-outline-secondary">&larr; Back to Blog</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}

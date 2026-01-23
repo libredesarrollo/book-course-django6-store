@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 
 from .forms import ElementForm # ,ElemementModelForm
-from .models import Element, Category
+from .models import Element, Category, Type
 
 # Create your views here.
 
@@ -72,3 +72,36 @@ def delete(request,pk):
     element = Element.objects.get(pk=pk)
     element.delete()
     return redirect('elements:index')
+
+def blog_list(request):
+    elements = Element.objects.all().order_by('-created')
+    
+    # Filters
+    type_slug = request.GET.get('type')
+    category_slug = request.GET.get('category')
+
+    if type_slug:
+        elements = elements.filter(type__slug=type_slug)
+    
+    if category_slug:
+        elements = elements.filter(category__slug=category_slug)
+
+    # Pagination
+    paginator = Paginator(elements, 6) # 6 elements per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    types = Type.objects.all()
+    categories = Category.objects.all()
+
+    return render(request, 'elements/blog_list.html', {
+        'page_obj': page_obj,
+        'types': types,
+        'categories': categories,
+        'selected_type': type_slug,
+        'selected_category': category_slug
+    })
+
+def blog_detail(request, slug):
+    element = get_object_or_404(Element, slug=slug)
+    return render(request, 'elements/blog_detail.html', {'element': element})

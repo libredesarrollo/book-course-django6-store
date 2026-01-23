@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Blog - Elements</title>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar Filters -->
+        <div class="col-md-3">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Categories</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'elements:blog_list' %}{% if request.GET.type %}?type={{ request.GET.type }}{% endif %}"
+                        class="list-group-item list-group-item-action {% if not request.GET.category %}active{% endif %}">
+                        All Categories
+                    </a>
+                    {% for cat in categories %}
+                    <a href="?category={{ cat.id }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}"
+                        class="list-group-item list-group-item-action {% if request.GET.category|add:'0' == cat.id %}active{% endif %}">
+                        {{ cat.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Types</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'elements:blog_list' %}{% if request.GET.category %}?category={{ request.GET.category }}{% endif %}"
+                        class="list-group-item list-group-item-action {% if not request.GET.type %}active{% endif %}">
+                        All Types
+                    </a>
+                    {% for t in types %}
+                    <a href="?type={{ t.id }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}"
+                        class="list-group-item list-group-item-action {% if request.GET.type|add:'0' == t.id %}active{% endif %}">
+                        {{ t.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <h2 class="mb-4">Blog Posts</h2>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+                {% for element in elements %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        {% if element.image %}
+                        <img src="{{ element.image.url }}" class="card-img-top" alt="{{ element.title }}"
+                            style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                            style="height: 200px;">
+                            <span class="text-muted">No Image</span>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ element.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ element.category.title }} |
+                                {{ element.type.title }}</h6>
+                            <p class="card-text text-truncate">{{ element.description|truncatewords:20 }}</p>
+                            <p class="card-text fw-bold">${{ element.price }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a href="{% url 'elements:blog_detail' element.slug %}"
+                                class="btn btn-outline-primary w-100">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">No posts found matching your criteria.</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% include 'partials/pagination.html' with page_obj=elements %}
+        </div>
+    </div>
+</div>
+{% endblock %}

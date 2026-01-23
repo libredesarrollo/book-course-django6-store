@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<header class="masthead"
+    style="background-image: url('https://startbootstrap.github.io/startbootstrap-clean-blog/assets/img/home-bg.jpg'); background-size: cover; background-position: center; padding: 150px 0 100px; margin-bottom: 50px;">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading text-center text-white">
+                    <h1 style="font-size: 80px;">Clean Blog</h1>
+                    <span class="subheading" style="font-size: 24px; font-weight: 300;">A Blog Theme by Start
+                        Bootstrap</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+
+            <!-- Filters -->
+            <div class="mb-5 text-center">
+                <span class="text-muted me-2"><i class="fas fa-filter"></i> Filters:</span>
+                {% for type in types %}
+                <a href="?type={{ type.slug }}"
+                    class="badge rounded-pill bg-light text-dark text-decoration-none border {% if selected_type == type.slug %}bg-secondary text-white{% endif %}">
+                    {{ type.title }}</a>
+                {% endfor %}
+                {% for cat in categories %}
+                <a href="?category={{ cat.slug }}"
+                    class="badge rounded-pill bg-light text-dark text-decoration-none border {% if selected_category == cat.slug %}bg-secondary text-white{% endif %}">
+                    {{ cat.title }}</a>
+                {% endfor %}
+                {% if selected_type or selected_category %}
+                <a href="{% url 'elements:blog_list' %}" class="btn btn-link btn-sm text-muted"><i
+                        class="fas fa-times"></i> Clear</a>
+                {% endif %}
+            </div>
+
+            {% for element in page_obj %}
+            <div class="post-preview">
+                <a href="{% url 'elements:blog_detail' element.slug %}" class="text-decoration-none text-dark">
+                    <h2 class="post-title" style="font-size: 36px; margin-top: 30px; margin-bottom: 10px;">
+                        {{ element.title }}
+                    </h2>
+                    <h3 class="post-subtitle fw-light" style="font-weight: 300; margin: 0 0 10px;">
+                        {{ element.description|truncatewords:20 }}
+                    </h3>
+                </a>
+                <p class="post-meta text-muted fst-italic">
+                    Posted by
+                    <a href="#!" class="text-decoration-none">Start Bootstrap</a>
+                    on {{ element.created|date:"F d, Y" }}
+                    <span class="mx-2">&middot;</span>
+                    <span class="badge bg-secondary">{{ element.category.title }}</span>
+                </p>
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
+            {% empty %}
+            <p class="text-center text-muted">No posts found.</p>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="d-flex justify-content-end mb-4">
+                {% if page_obj.has_previous %}
+                <a class="btn btn-primary text-uppercase"
+                    href="?page={{ page_obj.previous_page_number }}{% if selected_type %}&type={{ selected_type }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">&larr;
+                    Newer Posts</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a class="btn btn-primary text-uppercase ms-3"
+                    href="?page={{ page_obj.next_page_number }}{% if selected_type %}&type={{ selected_type }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">Older
+                    Posts &rarr;</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
