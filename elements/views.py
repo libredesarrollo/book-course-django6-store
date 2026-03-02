@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
+from .tasks import slow_task
 from .forms import ElementForm # ,ElemementModelForm
 from .models import Element, Category, Type
 
@@ -105,3 +107,12 @@ def blog_list(request):
 def blog_detail(request, slug):
     element = get_object_or_404(Element, slug=slug)
     return render(request, 'elements/blog_detail.html', {'element': element})
+
+def run_background_task(request, name):
+    # .delay() le dice a Python: "No ejecutes esto aquí, mándalo al worker"
+    task = slow_task.delay(name)
+    
+    return JsonResponse({
+        "message": "Tarea recibida y enviada al sótano",
+        "task_id": task.id
+    })
