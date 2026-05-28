@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always # Docker intentará reiniciar el contenedor siempre que se detenga, independientemente de la razón (incluyendo cierres limpios, fallos de aplicación o reinicios del propio Docker Daemon/Servidor).
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: django_db
+      MYSQL_USER: django_user
+      MYSQL_PASSWORD: django_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql # es la carpeta de datos -nuestras tablas- es la que guardamos en un volumen para que no se pierdan los datos.
+
+  web:
+    build: .
+    container_name: django_app
+    command: python manage.py runserver 0.0.0.0:8000
+    # command: python app/manage.py runserver 0.0.0.0:8000 # ruta mala
+    volumes:
+      - .:/app # alternativa INmoderna al watch para que inyecte los cambios en desarrollo
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment: # en settings esta establecido para leer os.environ.get('DB_NAME', 'django_db'),
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: django_db
+      DB_USER: django_user
+      DB_PASSWORD: django_pass
+
+volumes: # En Docker Compose, el archivo se divide en secciones de nivel superior. La sección volumes: (al mismo nivel que services:) se utiliza para declarar y definir los volúmenes con nombre que Docker Compose debe gestionar.
+  mysql_data:
