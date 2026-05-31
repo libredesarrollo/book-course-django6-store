@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "corsheaders.middleware.CorsMiddleware", # cors!!
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -180,7 +181,11 @@ DATABASES = {
 #     # "https://example.com",
 # ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'course-book-django-store-production.up.railway.app',
+    'localhost', 
+    '127.0.0.1'
+    ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
