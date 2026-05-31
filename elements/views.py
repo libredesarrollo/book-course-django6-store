@@ -116,3 +116,6 @@ def run_background_task(request, name):
         "message": "Tarea recibida y enviada al sótano",
         "task_id": task.id
     })
+
+def welcome(request):
+    return render(request, 'elements/welcome.html')

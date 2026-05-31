@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .demo-header {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .hero-section {
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, #1e3c72, #2a5298);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        color: #5a626a;
+        font-size: 1.25rem;
+        max-width: 700px;
+        margin: 0 auto 2.5rem auto;
+        line-height: 1.6;
+    }
+
+    .demo-badge {
+        background: linear-gradient(45deg, #e93b3b, #ff7e5f);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        display: inline-block;
+        box-shadow: 0 10px 20px rgba(233, 59, 59, 0.2);
+        animation: pulse 2s infinite;
+        margin-bottom: 1.5rem;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .module-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .module-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.9);
+        border-color: #3b82f6;
+    }
+
+    .icon-container {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        font-size: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .icon-elements {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+
+    .icon-management {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .icon-todo {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    .icon-comments {
+        background: rgba(139, 92, 246, 0.1);
+        color: #8b5cf6;
+    }
+
+    .icon-api {
+        background: rgba(236, 72, 153, 0.1);
+        color: #ec4899;
+    }
+
+    .icon-admin {
+        background: rgba(75, 85, 99, 0.1);
+        color: #4b5563;
+    }
+
+    .module-card:hover .icon-container {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .module-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+    }
+
+    .module-description {
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+
+    .module-btn {
+        background: #1e293b;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .module-card:hover .module-btn {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+    }
+
+    .info-footer {
+        text-align: center;
+        padding: 3rem 0;
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg demo-header py-3 sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <i class="fa-solid fa-store text-primary me-2 fs-3"></i>
+            <span class="fw-extrabold text-dark fs-4">MyStore <span class="text-primary">Demo</span></span>
+        </a>
+        <div class="ms-auto d-flex align-items-center">
+            {% if user.is_authenticated %}
+            <span class="me-3 text-muted d-none d-md-inline">Bienvenido, <strong>{{ user.username }}</strong></span>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                <i class="fa-solid fa-arrow-right-from-bracket me-1"></i> Cerrar Sesión
+            </a>
+            {% else %}
+            <a href="/login" class="btn btn-outline-primary btn-sm rounded-pill px-3 me-2">Iniciar Sesión</a>
+            <a href="/register" class="btn btn-primary btn-sm rounded-pill px-3">Registrarse</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="hero-section">
+        <span class="demo-badge">
+            <i class="fa-solid fa-shield-halved me-1"></i> MODO DEMO ACTIVO
+        </span>
+        <h1 class="hero-title">Explora los Módulos de MyStore</h1>
+        <p class="hero-subtitle">
+            ¡Bienvenido! Estás navegando en un ambiente de demostración seguro. Siéntete libre de explorar, filtrar y
+            navegar por todos los módulos del proyecto. Las modificaciones a la base de datos están temporalmente
+            restringidas para todos los usuarios.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Elements Module -->
+        <div class="col-md-4 col-sm-6">
+            <div class="module-card">
+                <div>
+                    <div class="icon-container icon-elements">
+                        <i class="fa-solid fa-cubes"></i>
+                    </div>
+                    <h3 class="module-title">Catálogo de Elementos</h3>
+                    <p class="module-description">Visualiza elementos estructurados con paginación, filtros avanzados y
+                        detalles completos.</p>
+                </div>
+                <a href="/elements/" class="module-btn">Explorar Elementos</a>
+                <a href="/elements/blog/" class="module-btn" style="margin-top: 5px;">Explorar Blog</a>
+            </div>
+        </div>
+
+        <!-- Management Module -->
+        <div class="col-md-4 col-sm-6">
+            <div class="module-card">
+                <div>
+                    <div class="icon-container icon-management">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 class="module-title">Gestión de Libros</h3>
+                    <p class="module-description">Módulo CRUD basado en clases (Class-Based Views) con formularios
+                        interactivos y detalles técnicos.</p>
+                </div>
+                <a href="/management/" class="module-btn">Administrar Libros</a>
+            </div>
+        </div>
+
+        <!-- Todo Module -->
+        <div class="col-md-4 col-sm-6">
+            <div class="module-card">
+                <div>
+                    <div class="icon-container icon-todo">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="module-title">Lista de Tareas</h3>
+                    <p class="module-description">Modulo interactivo de tareas pendientes (ToDo) para la organización de
+                        prioridades.</p>
+                </div>
+                <a href="/todo/" class="module-btn">Ver Tareas</a>
+            </div>
+        </div>
+
+        <!-- Comments Module -->
+        <div class="col-md-4 col-sm-6">
+            <div class="module-card">
+                <div>
+                    <div class="icon-container icon-comments">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 class="module-title">Comentarios de Usuarios</h3>
+                    <p class="module-description">Sección de comentarios que permite recopilar la retroalimentación
+                        directa en el proyecto.</p>
+                </div>
+                <a href="/comments/" class="module-btn">Ver Comentarios</a>
+            </div>
+        </div>
+
+        <!-- API Module -->
+        <div class="col-md-4 col-sm-6">
+            <div class="module-card">
+                <div>
+                    <div class="icon-container icon-api">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3 class="module-title">Endpoints API Rest</h3>
+                    <p class="module-description">Explora la interfaz estructurada de endpoints provista por Django REST
+                        Framework.</p>
+                </div>
+                <a href="/api/" class="module-btn">Consumir API</a>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div class="col-md-4 col-sm-6">
+            <div class="module-card">
+                <div>
+                    <div class="icon-container icon-admin">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </div>
+                    <h3 class="module-title">Panel de Administración</h3>
+                    <p class="module-description">Accede a la interfaz administrativa de Django potenciada por el
+                        hermoso tema Unfold.</p>
+                </div>
+                <a href="/admin/" class="module-btn">Panel Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="info-footer">
+        <p>&copy; 2026 MyStore. Construido con Django 6.0 & Bootstrap 5.</p>
+        <p><i class="fa-solid fa-circle-info text-primary"></i> Para iniciar sesión y probar la autenticación, utiliza
+            la opción superior.</p>
+    </footer>
+</div>
+{% endblock %}

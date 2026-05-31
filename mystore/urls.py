@@ -21,9 +21,12 @@ from django.conf.urls.static import static
 
 from debug_toolbar.toolbar import debug_toolbar_urls
 
+from elements.views import welcome
+
 urlpatterns = [
+    path('', welcome, name='welcome'),
     path('admin/', admin.site.urls),
-    path('', include("comments.urls")),
+    path('comments/', include("comments.urls")),
     path('elements/', include("elements.urls")),  
     path('api/', include("api.urls")),  
     path('management/', include("management.urls")),  
@@ -32,7 +35,7 @@ urlpatterns = [
     path('', include("user.urls")),  
     path('', include("account.urls")),  
     path('pruebas/', include("pruebas.urls")),  
-]+ debug_toolbar_urls()
+] + debug_toolbar_urls()
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
