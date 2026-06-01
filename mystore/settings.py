@@ -185,7 +185,8 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'course-book-django-store-production.up.railway.app',
     'localhost', 
-    '127.0.0.1'
+    '127.0.0.1',
+    '0.0.0.0',
     ]
 
 CORS_ALLOWED_ORIGINS = [

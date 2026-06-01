@@ -18,6 +18,7 @@ django-widget-tweaks==1.5.1
 djangorestframework==3.17.1
 easy-thumbnails==2.10.1
 Faker==40.19.1
+gunicorn==26.0.0
 kombu==5.6.2
 packaging==26.2
 pillow==12.2.0
