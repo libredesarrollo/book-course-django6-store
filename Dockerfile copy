@@ -25,10 +25,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar todo el código
 COPY . .
 
-# Exponer puerto de Django en Local
-# EXPOSE 8000
+# Exponer puerto de Django
+EXPOSE 8000
 
 # Comando de inicio servidor local
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-# Esto es para Railway
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT mystore.wsgi:application"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
