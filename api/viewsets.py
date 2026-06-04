@@ -37,7 +37,7 @@ class ElementCreateUpdateDestroyViewSet(
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    # throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def perform_create(self, serializer):
         title = serializer.validated_data.get('title')
