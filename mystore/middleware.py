@@ -44,6 +44,7 @@ class DemoModeMiddleware:
             '/admin/login/',
             '/admin/logout/',
             '/api-token-auth/',
+            '/apininja/',
         ]
         
         # Check if the request is trying to authenticate
@@ -59,7 +60,7 @@ class DemoModeMiddleware:
         message = "¡Modo Demo Activo! Las operaciones de creación, edición y eliminación de registros están desactivadas en este entorno."
         
         # If it's an AJAX or API request, return a clean JSON response
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.path_info.startswith('/api/'):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.path_info.startswith('/api/') or request.path_info.startswith('/apininja/'):
             return JsonResponse({
                 'detail': message,
                 'code': 'demo_mode_restriction'

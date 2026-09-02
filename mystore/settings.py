@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'comments',
     'elements',
     'api',
+    'apininja',
     'management',
     'user',
     'todo',

@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 from elements.views import welcome
+from apininja import api as apininja_api
 
 urlpatterns = [
     path('', welcome, name='welcome'),
@@ -29,6 +30,7 @@ urlpatterns = [
     path('comments/', include("comments.urls")),
     path('elements/', include("elements.urls")),  
     path('api/', include("api.urls")),  
+    path('apininja/', apininja_api.api.urls),
     path('management/', include("management.urls")),  
     path('todo/', include("todo.urls")),  
     # auth
