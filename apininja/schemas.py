@@ -66,3 +66,9 @@ class LoginSchema(Schema):
 
 class TokenSchema(Schema):
     token: str
+
+
+
+class AuthSchema(Schema):
+    username: str
+    password: str

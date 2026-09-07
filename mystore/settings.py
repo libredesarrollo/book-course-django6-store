@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'import_export',
     'django_seed',
+    'ninja_jwt'
 ]
 
 MIDDLEWARE = [

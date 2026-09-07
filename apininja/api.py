@@ -7,6 +7,10 @@ from ninja import NinjaAPI, Query
 from ninja.responses import Response
 from ninja.security import HttpBearer
 
+from ninja_jwt.tokens import RefreshToken
+
+from ninja_jwt.authentication import JWTAuth
+
 from rest_framework.authtoken.models import Token
 
 from elements.models import Element, Category, Type
@@ -17,7 +21,7 @@ from .schemas import (
     CategorySchema, TypeSchema, CommentSchema,
     ElementReadSchema, ElementWriteSchema,
     TodoSchema, TodoCreateSchema, SortSchema,
-    LoginSchema, TokenSchema,
+    LoginSchema, TokenSchema, AuthSchema
 )
 
 
@@ -32,7 +36,8 @@ class TokenAuth(HttpBearer):
 api = NinjaAPI(
     title="MyStore Ninja API",
     version="1.0.0",
-    auth=TokenAuth(),
+    # auth=TokenAuth(), # DJANGO REST FRAMEWORK
+    auth=JWTAuth(), # Cambia TokenAuth() por JWTAuth()
 )
 
 
@@ -284,3 +289,29 @@ def login(request, payload: LoginSchema):
 
     token, _ = Token.objects.get_or_create(user=user)
     return {"token": token.key}
+
+
+# ──────────────────────────────────────────────
+#  Login CON JINJA
+# ──────────────────────────────────────────────
+
+from django.contrib.auth import authenticate
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
+
+
+@api.post("/login-real", tags=["auth-real"], auth=None)
+def login(request, payload: AuthSchema):
+    user = authenticate(username=payload.username, password=payload.password)
+    if not user:
+        return Response({"detail": "Credenciales incorrectas"}, status=403)
+    
+    # Generar los tokens usando la función anterior
+    return get_tokens_for_user(user) # o get_tokens_for_user
