@@ -48,3 +48,6 @@ python -m venv env
 source env/bin/activate  # En Windows: env\Scripts\activate
 pip install -r requirements.txt
 npm install
+
+
+uv export --format requirements.txt --no-hashes --no-emit-project > requirements.txt
