@@ -21,6 +21,7 @@ click==8.5.0
     #   click-didyoumean
     #   click-plugins
     #   click-repl
+    #   uvicorn
 click-didyoumean==0.3.1
     # via celery
 click-plugins==1.1.1.2
@@ -73,6 +74,10 @@ easy-thumbnails==2.10.1
     # via mystore
 faker==40.44.0
     # via django-seed
+gunicorn==26.2.0
+    # via mystore
+h11==0.16.0
+    # via uvicorn
 injector==0.24.0
     # via django-ninja-extra
 kombu==5.7.0
@@ -125,6 +130,8 @@ tzdata==2026.6
     #   tzlocal
 tzlocal==5.4.5
     # via celery
+uvicorn==0.54.0
+    # via mystore
 vine==5.1.0
     # via
     #   amqp

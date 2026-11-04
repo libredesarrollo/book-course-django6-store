@@ -17,5 +17,7 @@ dependencies = [
     "django-widget-tweaks>=1.5.1",
     "djangorestframework>=3.18.3",
     "easy-thumbnails>=2.10.1",
+    "gunicorn>=26.2.0",
+    "uvicorn>=0.54.0",
     "whitenoise>=6.12.0",
 ]
